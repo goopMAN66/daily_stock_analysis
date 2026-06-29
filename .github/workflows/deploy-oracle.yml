@@ -1,0 +1,21 @@
+name: Deploy to Oracle VPS
+
+on:
+  push:
+    branches:
+      - oracle-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.ORACLE_HOST }}
+          username: ubuntu
+          key: ${{ secrets.ORACLE_SSH_KEY }}
+          port: 22
+          script: |
+            sudo /opt/daily_stock_analysis/deploy.sh
